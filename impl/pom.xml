@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>ru.crackedglass</groupId>
+        <artifactId>nexign-demo-root</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <groupId>ru.crackedglass</groupId>
+    <artifactId>impl</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <db.name>CDR_DB</db.name>
+        <db.username>sa</db.username>
+        <db.password>password</db.password>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>ru.crackedglass</groupId>
+            <artifactId>db</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jooq</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jooq</groupId>
+            <artifactId>jooq-meta-extensions-liquibase</artifactId>
+            <version>3.20.2</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <exclude>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                        </exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.jooq</groupId>
+                <artifactId>jooq-codegen-maven</artifactId>
+                <version>${jooq.version}</version>
+
+                <configuration>
+                    <generator>
+                        <database>
+                            <name>org.jooq.meta.extensions.liquibase.LiquibaseDatabase</name>
+                            <properties>
+                                <property>
+                                    <key>rootPath</key>
+                                    <value>db/src/main/resources</value>
+                                </property>
+                                <property>
+                                    <key>scripts</key>
+                                    <value>db/changelog/master.xml</value>
+                                </property>
+                            </properties>
+                            <includes>cdr</includes>
+                            <excludes>databasechangelog | databasechangeloglock</excludes>
+                            <forcedTypes>
+                                <forcedType>
+                                    <name>INSTANT</name>
+                                    <includeExpression>cdr.start_timestamp</includeExpression>
+                                </forcedType>
+
+                                <forcedType>
+                                    <name>INSTANT</name>
+                                    <includeExpression>cdr.end_timestamp</includeExpression>
+                                </forcedType>
+                            </forcedTypes>
+                        </database>
+                        <generate>
+                            <records>true</records>
+                        </generate>
+                        <target>
+                            <packageName>ru.crackedglass.nexign_demo.entities.jooq</packageName>
+                            <directory>src/main/java</directory>
+                        </target>
+                    </generator>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
