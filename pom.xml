@@ -18,6 +18,7 @@
 	<modules>
 		<module>impl</module>
 		<module>db</module>
+		<module>api</module>
 	</modules>
 
 	<description>Demo project for nexign bootcamp</description>
