@@ -8,6 +8,17 @@
                         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
                         http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd">
 
-    <includeAll path="v-1.0" relativeToChangelogFile="true" />
+    <changeSet id="003_createFkCdrsToSubscribers" author="crackedglass">
+        <addForeignKeyConstraint baseTableName="cdrs"
+            baseColumnNames="caller_subscriber_id"
+            constraintName="fk__Caller_Subscriber__Cdrs"
+            referencedTableName="subscribers"
+            referencedColumnNames="subscriber_id" />
+        <addForeignKeyConstraint baseTableName="cdrs"
+            baseColumnNames="receiver_subscriber_id"
+            constraintName="fk__Receiver_Subscriber__Cdrs"
+            referencedTableName="subscribers"
+            referencedColumnNames="subscriber_id" />
+    </changeSet>
 
 </databaseChangeLog>

@@ -11,7 +11,8 @@ import org.jooq.Catalog;
 import org.jooq.Table;
 import org.jooq.impl.SchemaImpl;
 
-import ru.crackedglass.nexign_demo.entities.jooq.tables.Cdr;
+import ru.crackedglass.nexign_demo.entities.jooq.tables.Cdrs;
+import ru.crackedglass.nexign_demo.entities.jooq.tables.Subscribers;
 
 
 /**
@@ -28,9 +29,14 @@ public class DefaultSchema extends SchemaImpl {
     public static final DefaultSchema DEFAULT_SCHEMA = new DefaultSchema();
 
     /**
-     * The table <code>CDR</code>.
+     * The table <code>CDRS</code>.
      */
-    public final Cdr CDR = Cdr.CDR;
+    public final Cdrs CDRS = Cdrs.CDRS;
+
+    /**
+     * The table <code>SUBSCRIBERS</code>.
+     */
+    public final Subscribers SUBSCRIBERS = Subscribers.SUBSCRIBERS;
 
     /**
      * No further instances allowed
@@ -48,7 +54,8 @@ public class DefaultSchema extends SchemaImpl {
     @Override
     public final List<Table<?>> getTables() {
         return Arrays.asList(
-            Cdr.CDR
+            Cdrs.CDRS,
+            Subscribers.SUBSCRIBERS
         );
     }
 }

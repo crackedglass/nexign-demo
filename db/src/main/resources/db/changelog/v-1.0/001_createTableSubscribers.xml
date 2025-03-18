@@ -8,6 +8,16 @@
                         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
                         http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd">
 
-    <includeAll path="v-1.0" relativeToChangelogFile="true" />
+    <changeSet id="001_createTableSubscribers" author="crackedglass">
+        <createTable tableName="subscribers">
+            <column name="subscriber_id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" />
+            </column>
+
+            <column name="number" type="VARCHAR">
+                <constraints nullable="false" unique="true"/>
+            </column>
+        </createTable>
+    </changeSet>
 
 </databaseChangeLog>

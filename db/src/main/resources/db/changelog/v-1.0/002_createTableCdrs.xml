@@ -8,22 +8,22 @@
                         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
                         http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd">
 
-    <changeSet id="001_createTableCDR" author="crackedglass">
-        <createTable tableName="cdr">
-            <column name="cdr_id" type="UUID">
-                <constraints primaryKey="true" />
+    <changeSet id="002_createTableCdrs" author="crackedglass">
+        <createTable tableName="cdrs">
+            <column name="cdr_id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false" />
             </column>
 
-            <column name="call_type" type="ENUM('INCOMMING', 'OUTCOMMING')">
+            <column name="call_type" type="varchar">
                 <constraints nullable="false" />
             </column>
 
-            <column name="caller_number" type="VARCHAR_IGNORECASE">
-                <constraints nullable="false" />
+            <column name="caller_subscriber_id" type="bigint">
+                <constraints nullable="false"/>
             </column>
 
-            <column name="receiver_number" type="VARCHAR_IGNORECASE">
-                <constraints nullable="false" />
+            <column name="receiver_subscriber_id" type="bigint">
+                <constraints nullable="false"/>
             </column>
 
             <column name="start_timestamp" type="TIMESTAMP">

@@ -4,7 +4,8 @@
 package ru.crackedglass.nexign_demo.entities.jooq;
 
 
-import ru.crackedglass.nexign_demo.entities.jooq.tables.Cdr;
+import ru.crackedglass.nexign_demo.entities.jooq.tables.Cdrs;
+import ru.crackedglass.nexign_demo.entities.jooq.tables.Subscribers;
 
 
 /**
@@ -14,7 +15,12 @@ import ru.crackedglass.nexign_demo.entities.jooq.tables.Cdr;
 public class Tables {
 
     /**
-     * The table <code>CDR</code>.
+     * The table <code>CDRS</code>.
      */
-    public static final Cdr CDR = Cdr.CDR;
+    public static final Cdrs CDRS = Cdrs.CDRS;
+
+    /**
+     * The table <code>SUBSCRIBERS</code>.
+     */
+    public static final Subscribers SUBSCRIBERS = Subscribers.SUBSCRIBERS;
 }

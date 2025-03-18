@@ -97,19 +97,36 @@
                                     <value>db/changelog/master.xml</value>
                                 </property>
                             </properties>
-                            <includes>cdr</includes>
+                            <includes>cdrs | subscribers</includes>
                             <excludes>databasechangelog | databasechangeloglock</excludes>
                             <forcedTypes>
                                 <forcedType>
                                     <name>INSTANT</name>
-                                    <includeExpression>cdr.start_timestamp</includeExpression>
+                                    <includeExpression>cdrs.start_timestamp</includeExpression>
                                 </forcedType>
 
                                 <forcedType>
                                     <name>INSTANT</name>
-                                    <includeExpression>cdr.end_timestamp</includeExpression>
+                                    <includeExpression>cdrs.end_timestamp</includeExpression>
                                 </forcedType>
                             </forcedTypes>
+
+                            <syntheticObjects>
+                                <enums>
+                                    <enum>
+                                        <name>CallType</name>
+                                        <tables>cdrs</tables>
+                                        <fields>call_type</fields>
+                                        <literals>
+                                            <literal>INCOMMING</literal>
+                                            <literal>OUTCOMMING</literal>
+                                        </literals>
+                                        <literalSql>SELECT DISTINCT call_type FROM cdr</literalSql>
+                                        <literalsFromColumnContent>true</literalsFromColumnContent>
+                                        <literalsFromCheckConstraints>true</literalsFromCheckConstraints>
+                                    </enum>
+                                </enums>
+                            </syntheticObjects>
                         </database>
                         <generate>
                             <records>true</records>

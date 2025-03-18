@@ -4,13 +4,16 @@
 package ru.crackedglass.nexign_demo.entities.jooq;
 
 
+import org.jooq.ForeignKey;
 import org.jooq.TableField;
 import org.jooq.UniqueKey;
 import org.jooq.impl.DSL;
 import org.jooq.impl.Internal;
 
-import ru.crackedglass.nexign_demo.entities.jooq.tables.Cdr;
-import ru.crackedglass.nexign_demo.entities.jooq.tables.records.CdrRecord;
+import ru.crackedglass.nexign_demo.entities.jooq.tables.Cdrs;
+import ru.crackedglass.nexign_demo.entities.jooq.tables.Subscribers;
+import ru.crackedglass.nexign_demo.entities.jooq.tables.records.CdrsRecord;
+import ru.crackedglass.nexign_demo.entities.jooq.tables.records.SubscribersRecord;
 
 
 /**
@@ -24,5 +27,14 @@ public class Keys {
     // UNIQUE and PRIMARY KEY definitions
     // -------------------------------------------------------------------------
 
-    public static final UniqueKey<CdrRecord> PK_CDR = Internal.createUniqueKey(Cdr.CDR, DSL.name("PK_CDR"), new TableField[] { Cdr.CDR.CDR_ID }, true);
+    public static final UniqueKey<CdrsRecord> PK_CDRS = Internal.createUniqueKey(Cdrs.CDRS, DSL.name("PK_CDRS"), new TableField[] { Cdrs.CDRS.CDR_ID }, true);
+    public static final UniqueKey<SubscribersRecord> CONSTRAINT_B = Internal.createUniqueKey(Subscribers.SUBSCRIBERS, DSL.name("CONSTRAINT_B"), new TableField[] { Subscribers.SUBSCRIBERS.NUMBER }, true);
+    public static final UniqueKey<SubscribersRecord> PK_SUBSCRIBERS = Internal.createUniqueKey(Subscribers.SUBSCRIBERS, DSL.name("PK_SUBSCRIBERS"), new TableField[] { Subscribers.SUBSCRIBERS.SUBSCRIBER_ID }, true);
+
+    // -------------------------------------------------------------------------
+    // FOREIGN KEY definitions
+    // -------------------------------------------------------------------------
+
+    public static final ForeignKey<CdrsRecord, SubscribersRecord> FK__CALLER_SUBSCRIBER__CDRS = Internal.createForeignKey(Cdrs.CDRS, DSL.name("FK__CALLER_SUBSCRIBER__CDRS"), new TableField[] { Cdrs.CDRS.CALLER_SUBSCRIBER_ID }, Keys.PK_SUBSCRIBERS, new TableField[] { Subscribers.SUBSCRIBERS.SUBSCRIBER_ID }, true);
+    public static final ForeignKey<CdrsRecord, SubscribersRecord> FK__RECEIVER_SUBSCRIBER__CDRS = Internal.createForeignKey(Cdrs.CDRS, DSL.name("FK__RECEIVER_SUBSCRIBER__CDRS"), new TableField[] { Cdrs.CDRS.RECEIVER_SUBSCRIBER_ID }, Keys.PK_SUBSCRIBERS, new TableField[] { Subscribers.SUBSCRIBERS.SUBSCRIBER_ID }, true);
 }
