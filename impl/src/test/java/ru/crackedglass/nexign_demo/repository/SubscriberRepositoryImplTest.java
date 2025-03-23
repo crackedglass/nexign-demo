@@ -42,10 +42,10 @@ public class SubscriberRepositoryImplTest {
                 .isInstanceOf(DuplicateKeyException.class);
     }
 
-    @Sql("/sql/TestData.sql")
+    @Sql("/sql/TestDataExplicit.sql")
     @Test
     void shouldUpdateEntityWhenItExists() {
-        var entity = new SubscriberEntity(1L, "123");
+        var entity = new SubscriberEntity(100L, "123");
 
         var actual = subscriberRepository.update(entity);
         assertThat(actual).isEqualTo(entity);
@@ -53,7 +53,7 @@ public class SubscriberRepositoryImplTest {
 
     @Test
     void shouldThrowExceptionWhenItNotExists() {
-        var entity = new SubscriberEntity(1242L, "unreal");
+        var entity = new SubscriberEntity(1L, "unreal");
 
         assertThatThrownBy(() -> subscriberRepository.update(entity))
                 .isInstanceOf(SubscriberException.class);

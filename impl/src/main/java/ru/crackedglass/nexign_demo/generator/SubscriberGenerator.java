@@ -16,15 +16,15 @@ import ru.crackedglass.nexign_demo.service.SubscriberService;
 @ConditionalOnProperty(prefix = "generator", name = "subscribers.enabled")
 @Component
 @RequiredArgsConstructor
-public class SubscriberGenerator implements CommandLineRunner {
+public class SubscriberGenerator {
 
     private final SubscriberService subscriberService;
 
     @Value("${generator.subscribers.amount:10}")
     private String amount;
 
-    @Override
-    public void run(String... args) throws Exception {
+    
+    public void generate() {
         Faker faker = new Faker();
 
         log.info("Creation {} subscribers", amount);

@@ -16,4 +16,8 @@ public interface CdrRepository {
     List<CdrEntity> findAll();
 
     List<CdrEntity> findByNumber(String number);
+
+    List<CdrEntity> findByMonth(Integer month);
+
+    List<CdrEntity> findByNumberAndMonth(String number, Integer month);
 }

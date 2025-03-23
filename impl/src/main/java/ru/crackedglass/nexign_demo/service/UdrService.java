@@ -6,5 +6,7 @@ import ru.crackedglass.nexign_demo.dto.UdrDto;
 
 public interface UdrService {
     
-    UdrDto getUdrByNumber(String number, int month);
+    UdrDto getUdrByNumber(String number, Integer month);
+
+    List<UdrDto> getUdrsByMonth(Integer month);
 } 

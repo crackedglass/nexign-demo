@@ -1,23 +1,24 @@
 package ru.crackedglass.nexign_demo.repository.impl;
 
 import static org.jooq.impl.DSL.row;
+import static org.jooq.impl.DSL.extract;
 import static ru.crackedglass.nexign_demo.entities.jooq.tables.Cdrs.CDRS;
 import static ru.crackedglass.nexign_demo.entities.jooq.tables.Subscribers.SUBSCRIBERS;
 
 import java.time.Instant;
 import java.util.List;
 
+import org.jooq.Condition;
 import org.jooq.DSLContext;
+import org.jooq.DatePart;
 import org.jooq.Record6;
 import org.jooq.RecordMapper;
 import org.jooq.RecordUnmapper;
 import org.jooq.SelectOnConditionStep;
-import org.jooq.SelectSelectStep;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import lombok.RequiredArgsConstructor;
 import ru.crackedglass.nexign_demo.entities.domain.CdrEntity;
 import ru.crackedglass.nexign_demo.entities.domain.SubscriberEntity;
 import ru.crackedglass.nexign_demo.entities.jooq.tables.Subscribers;
@@ -67,12 +68,35 @@ public class CdrRepositoryImpl implements CdrRepository {
 
     @Override
     public List<CdrEntity> findByNumber(String number) {
+        Condition callerCondition = caller.NUMBER.eq(number);
+        Condition receiverCondition = receiver.NUMBER.eq(number);
+
         return find()
-                .where(caller.NUMBER.eq(number).or(receiver.NUMBER.eq(number)))
+                .where(callerCondition)
+                .or(receiverCondition)
                 .fetchInto(CdrEntity.class);
     }
 
-    
+    @Override
+    public List<CdrEntity> findByMonth(Integer month) {
+        Condition monthCondition = extract(CDRS.START_TIMESTAMP, DatePart.MONTH).eq(month);
+
+        return find()
+            .where(monthCondition)
+            .fetchInto(CdrEntity.class);
+    }
+
+    @Override
+    public List<CdrEntity> findByNumberAndMonth(String number, Integer month){
+        Condition callerCondition = caller.NUMBER.eq(number);
+        Condition receiverCondition = receiver.NUMBER.eq(number);
+        Condition monthCondition = extract(CDRS.START_TIMESTAMP, DatePart.MONTH).eq(month);
+
+        return find()
+            .where(callerCondition.or(receiverCondition))
+            .and(monthCondition)
+            .fetchInto(CdrEntity.class);
+    }
 
     private SelectOnConditionStep<Record6<Long, String, SubscriberEntity, SubscriberEntity, Instant, Instant>> find() {
         return dsl.select(
@@ -102,5 +126,7 @@ public class CdrRepositoryImpl implements CdrRepository {
             new SubscriberEntity(record.getReceiverSubscriberId(), null),
             record.getStartTimestamp(),
             record.getEndTimestamp());
+
+  
 
 }

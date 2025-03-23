@@ -18,11 +18,6 @@ spring:
     password: password
     driver-class-name: org.h2.Driver
 
-generator:
-  subscribers:
-    enabled: true
-  cdrs:
-    enabled: true
 logging:
   level:
     ru:

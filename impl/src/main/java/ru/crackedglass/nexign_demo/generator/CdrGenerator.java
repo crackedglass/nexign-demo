@@ -17,13 +17,12 @@ import ru.crackedglass.nexign_demo.service.CdrService;
 import ru.crackedglass.nexign_demo.service.SubscriberService;
 
 @Slf4j
-@DependsOn("subscriberGenerator")
-@ConditionalOnProperty(prefix = "generator", name = "cdrs.enabled")
 @Component
 @RequiredArgsConstructor
 public class CdrGenerator implements CommandLineRunner {
 
     private final SubscriberService subscriberService;
+    private final SubscriberGenerator subscriberGenerator;
     private final CdrService cdrService;
 
     @Value("${generator.cdrs.amount:1000}")
@@ -44,6 +43,7 @@ public class CdrGenerator implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         log.info("Creating {} cdrs from {}", amount, start);
+        subscriberGenerator.generate();
 
         var subscribers = subscriberService.getAll();
         int size = subscribers.size();

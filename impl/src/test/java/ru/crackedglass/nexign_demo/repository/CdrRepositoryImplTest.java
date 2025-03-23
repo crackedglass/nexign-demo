@@ -30,9 +30,9 @@ public class CdrRepositoryImplTest {
     @Test
     void shouldAddNewEntityWhenNotExists() {
         var entity = new CdrEntity(null,
-                "INCOMING",
+                "02",
                 new SubscriberEntity(1L, null),
-                new SubscriberEntity(2L, null),
+                new SubscriberEntity(3L, null),
                 Instant.now().truncatedTo(ChronoUnit.MICROS),
                 Instant.now().plusSeconds(10).truncatedTo(ChronoUnit.MICROS));
 
@@ -46,10 +46,10 @@ public class CdrRepositoryImplTest {
         assertThat(actual.endTimestamp()).isEqualTo(entity.endTimestamp());
     }
 
-    @Sql("/sql/TestData.sql")
+    @Sql("/sql/TestDataExplicit.sql")
     @Test
     void shouldThrowExceptionWhenExists() {
-        var entity = new CdrEntity(1L,
+        var entity = new CdrEntity(100L,
                 "INCOMING",
                 new SubscriberEntity(1L, null),
                 new SubscriberEntity(2L, null),
@@ -64,7 +64,7 @@ public class CdrRepositoryImplTest {
     @Test
     void shouldUpdateWhenExists() {
         var entity = new CdrEntity(1L,
-                "INCOMING",
+                "02",
                 new SubscriberEntity(3L, null),
                 new SubscriberEntity(2L, null),
                 Instant.now().truncatedTo(ChronoUnit.MICROS),
@@ -99,12 +99,12 @@ public class CdrRepositoryImplTest {
     void shouldReturnListOfEntities() {
         List<CdrEntity> expected = List.of(
                 new CdrEntity(1L,
-                        "INCOMING",
+                        "02",
                         new SubscriberEntity(1L, "1"),
                         new SubscriberEntity(2L, "2"),
                         null, null),
                 new CdrEntity(2L,
-                        "OUTCOMING",
+                        "01",
                         new SubscriberEntity(2L, "2"),
                         new SubscriberEntity(3L, "3"),
                         null, null));
