@@ -21,3 +21,10 @@ spring:
 generator:
   subscribers:
     enabled: true
+  cdrs:
+    enabled: true
+logging:
+  level:
+    ru:
+      crackedglass:
+        nexign_demo: DEBUG

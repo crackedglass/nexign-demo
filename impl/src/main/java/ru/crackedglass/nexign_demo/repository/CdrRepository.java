@@ -14,4 +14,6 @@ public interface CdrRepository {
     CdrEntity update(CdrEntity entity) throws CdrException;
 
     List<CdrEntity> findAll();
+
+    List<CdrEntity> findByNumber(String number);
 }

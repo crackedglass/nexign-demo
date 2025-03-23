@@ -1,5 +1,7 @@
 package ru.crackedglass.nexign_demo.service.impl;
 
+import java.util.List;
+
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +25,11 @@ public class SubscriberServiceImpl implements SubscriberService {
             result = subscriberRepository.update(entity);
         }
         return result;
+    }
+
+    @Override
+    public List<SubscriberEntity> getAll() {
+        return subscriberRepository.findAll();
     }
     
 }

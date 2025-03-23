@@ -2,6 +2,8 @@ package ru.crackedglass.nexign_demo.repository.impl;
 
 import static ru.crackedglass.nexign_demo.entities.jooq.tables.Subscribers.SUBSCRIBERS;
 
+import java.util.List;
+
 import org.jooq.DSLContext;
 import org.jooq.impl.DefaultRecordUnmapper;
 import org.springframework.dao.DuplicateKeyException;
@@ -40,6 +42,11 @@ public class SubscriberRepositoryImpl implements SubscriberRepository {
         if (result == null)
             throw new SubscriberException("Can't update because subscriber doesn't exist");
         return result;
+    }
+    @Override
+    public List<SubscriberEntity> findAll() {
+        return dsl.select().from(SUBSCRIBERS)
+            .fetchInto(SubscriberEntity.class);
     }
 
 }

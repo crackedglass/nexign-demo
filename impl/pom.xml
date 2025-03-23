@@ -127,8 +127,8 @@
                                         <tables>cdrs</tables>
                                         <fields>call_type</fields>
                                         <literals>
-                                            <literal>INCOMMING</literal>
-                                            <literal>OUTCOMMING</literal>
+                                            <literal>01</literal>
+                                            <literal>02</literal>
                                         </literals>
                                         <literalSql>SELECT DISTINCT call_type FROM cdr</literalSql>
                                         <literalsFromColumnContent>true</literalsFromColumnContent>

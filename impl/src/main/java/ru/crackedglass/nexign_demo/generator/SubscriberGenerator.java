@@ -32,9 +32,11 @@ public class SubscriberGenerator implements CommandLineRunner {
         for (Long i = 1L; i <= Long.parseLong(amount); i++) {
             subscriberService.upsert(
                     new SubscriberEntity(null, 
-                        faker.phoneNumber().cellPhone().replaceAll("-",""))
+                        faker.phoneNumber().cellPhone().replaceAll("[-(),. ]",""))
                     );
         }
+
+        log.debug("All subscribers: {}", subscriberService.getAll());
     }
 
 }

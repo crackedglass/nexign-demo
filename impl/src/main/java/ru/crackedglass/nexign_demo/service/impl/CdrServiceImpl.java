@@ -1,5 +1,7 @@
 package ru.crackedglass.nexign_demo.service.impl;
 
+import java.util.List;
+
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +25,11 @@ public class CdrServiceImpl implements CdrService{
             result = cdrRepository.update(entity);
         }
         return result;
+    }
+
+    @Override
+    public List<CdrEntity> getAll() {
+        return cdrRepository.findAll();
     }
     
 }

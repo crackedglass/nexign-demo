@@ -3,6 +3,8 @@ package ru.crackedglass.nexign_demo.repository;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -58,4 +60,17 @@ public class SubscriberRepositoryImplTest {
 
     }
 
+    @Sql("/sql/FindAllTest.sql")
+    @Test
+    void shouldReturnAllSubscribersWhenDbNotEmpty(){
+        var expected = List.of(
+            new SubscriberEntity(1L, "1"),
+            new SubscriberEntity(2L, "2"),
+            new SubscriberEntity(3L, "3")
+        );
+
+        var actual = subscriberRepository.findAll();
+
+        assertThat(actual).isEqualTo(expected);
+    }
 }
