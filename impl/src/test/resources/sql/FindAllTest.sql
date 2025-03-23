@@ -1,8 +1,8 @@
 INSERT INTO subscribers(subscriber_id, number) 
 VALUES 
-    (1, '12345623'),
-    (2, '78910113'),
-    (3, '12131415');
+    (1, '1'),
+    (2, '2'),
+    (3, '3');
 
 INSERT INTO cdrs(cdr_id, call_type, caller_subscriber_id, receiver_subscriber_id, start_timestamp, end_timestamp)
 VALUES

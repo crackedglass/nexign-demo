@@ -7,6 +7,4 @@ public interface SubscriberRepository {
     SubscriberEntity insert(SubscriberEntity entity);
 
     SubscriberEntity update(SubscriberEntity entity);
-
-    
 }

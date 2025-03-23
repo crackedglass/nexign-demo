@@ -17,3 +17,7 @@ spring:
     username: sa
     password: password
     driver-class-name: org.h2.Driver
+
+generator:
+  subscribers:
+    enabled: true
