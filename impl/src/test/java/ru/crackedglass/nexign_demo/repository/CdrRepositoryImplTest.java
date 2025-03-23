@@ -60,13 +60,13 @@ public class CdrRepositoryImplTest {
                 .isInstanceOf(DuplicateKeyException.class);
     }
 
-    @Sql("/sql/TestData.sql")
+    @Sql("/sql/TestDataExplicit.sql")
     @Test
     void shouldUpdateWhenExists() {
-        var entity = new CdrEntity(1L,
+        var entity = new CdrEntity(100L,
                 "02",
-                new SubscriberEntity(3L, null),
-                new SubscriberEntity(2L, null),
+                new SubscriberEntity(100L, null),
+                new SubscriberEntity(200L, null),
                 Instant.now().truncatedTo(ChronoUnit.MICROS),
                 Instant.now().plusSeconds(10).truncatedTo(ChronoUnit.MICROS));
 

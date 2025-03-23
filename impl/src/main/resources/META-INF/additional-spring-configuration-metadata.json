@@ -1,5 +1,0 @@
-{"properties": [{
-  "name": "generator.enabled",
-  "type": "java.lang.String",
-  "description": "Controlls generation of test cdr records"
-}]}

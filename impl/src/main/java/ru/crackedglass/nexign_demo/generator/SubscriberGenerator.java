@@ -1,8 +1,6 @@
 package ru.crackedglass.nexign_demo.generator;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 import com.github.javafaker.Faker;
@@ -13,7 +11,6 @@ import ru.crackedglass.nexign_demo.entities.domain.SubscriberEntity;
 import ru.crackedglass.nexign_demo.service.SubscriberService;
 
 @Slf4j
-@ConditionalOnProperty(prefix = "generator", name = "subscribers.enabled")
 @Component
 @RequiredArgsConstructor
 public class SubscriberGenerator {

@@ -3,7 +3,6 @@ package ru.crackedglass.nexign_demo.service.impl;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 
 import org.springframework.stereotype.Service;
 
@@ -16,6 +15,9 @@ import ru.crackedglass.nexign_demo.repository.CdrRepository;
 import ru.crackedglass.nexign_demo.repository.SubscriberRepository;
 import ru.crackedglass.nexign_demo.service.UdrService;
 
+/**
+ * Класс формирования UDR отчетов
+ */
 @Service
 @RequiredArgsConstructor
 public class UdrServiceImpl implements UdrService {
@@ -23,6 +25,13 @@ public class UdrServiceImpl implements UdrService {
     private final CdrRepository cdrRepository;
     private final SubscriberRepository subscriberRepository;
 
+
+    /**
+     * Метод получения UDR по номеру и месяцу
+     * Опирается на использование sql-запросов с join'ми для максимизации использования встроенных функций бд.
+     * @param number - номер абонента
+     * @param month - номер месяца, если null или не лежит в отрезке [1,12], игнорируется
+     */
     @Override
     public UdrDto getUdrByNumber(String number, Integer month) {
 
@@ -33,28 +42,30 @@ public class UdrServiceImpl implements UdrService {
         else
             entities = cdrRepository.findByNumberAndMonth(number, month);
 
-        Duration incoming = calculateTotalTime(entities.stream(), "02");
-        Duration outcoming = calculateTotalTime(entities.stream(), "01");
+        Duration incoming = calculateTotalTime(entities, "02");
+        Duration outcoming = calculateTotalTime(entities, "01");
 
         return new UdrDto(number,
                 new TotalTimeDto(format(incoming)),
                 new TotalTimeDto(format(outcoming)));
     }
 
+    /**
+     * Метод получения всех отчетов UDR по месяцу
+     * Опирается на использование sql-запросов с join'ми для максимизации использования встроенных функций бд.
+     * 
+     * @param month - номер месяца, валидируется на уровне контроллера
+     */
     @Override
     public List<UdrDto> getUdrsByMonth(Integer month) {
-        List<CdrEntity> entities = cdrRepository.findByMonth(month);
 
         List<UdrDto> result = new ArrayList<>();
         List<String> numbers = subscriberRepository.findAll().stream().map(SubscriberEntity::number).toList();
         for (String number : numbers) {
-            Stream<CdrEntity> filteredOutcoming = entities.stream()
-                    .filter(entity -> entity.caller().number().equals(number));
-            Duration outcoming = calculateTotalTime(filteredOutcoming, "01");
+            List<CdrEntity> entities = cdrRepository.findByNumberAndMonth(number, month);
+            Duration outcoming = calculateTotalTime(entities, "01");
 
-            Stream<CdrEntity> filteredIncoming = entities.stream()
-                    .filter(entity -> entity.receiver().number().equals(number));
-            Duration incoming = calculateTotalTime(filteredIncoming, "02");
+            Duration incoming = calculateTotalTime(entities, "02");
 
             result.add(new UdrDto(number,
                     new TotalTimeDto(format(incoming)),
@@ -63,8 +74,8 @@ public class UdrServiceImpl implements UdrService {
         return result;
     }
 
-    private Duration calculateTotalTime(Stream<CdrEntity> entities, String callType) {
-        return entities
+    private Duration calculateTotalTime(List<CdrEntity> entities, String callType) {
+        return entities.stream()
                 .filter(entity -> entity.callType().equals(callType))
                 .map(entity -> Duration.between(entity.startTimestamp(), entity.endTimestamp()))
                 .reduce((a, b) -> a.plus(b)).orElse(Duration.ZERO);
